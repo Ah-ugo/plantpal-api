@@ -2,6 +2,7 @@ from DB.database import db
 from Utils.hashing import hash_password, verify_password
 from Utils.jwt import create_access_token
 from Utils.cloudinary_upload import upload_to_cloudinary
+from fastapi import UploadFile
 
 
 def get_user_by_email(email: str):
