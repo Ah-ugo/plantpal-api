@@ -12,7 +12,7 @@ cloudinary.config(
 def upload_to_cloudinary(file):
     try:
         response = cloudinary.uploader.upload(
-            file,  # Directly pass the file object
+            file,
             folder="shops",
             resource_type="raw"
         )
