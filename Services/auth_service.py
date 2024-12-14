@@ -37,9 +37,12 @@ def update_user(email: str, updates: dict):
     if "password" in updates:
         updates["hashed_password"] = hash_password(updates.pop("password"))
     if "profile_image" in updates:
-        updates["profile_image"] = upload_to_cloudinary(updates.pop("profile_image"))
+        profile_image = updates.pop("profile_image")
+        file_content = profile_image.file.read()
+        updates["profile_image"] = upload_to_cloudinary(file_content)
 
     db.users.update_one({"email": email}, {"$set": updates})
     updated_user = db.users.find_one({"email": email})
     updated_user["id"] = str(updated_user["_id"])
     return updated_user
+
