@@ -47,11 +47,16 @@ def register_user(
     )
 
 
-@router.post("/upload-profile-image")
+@router.post("/upload-profile-image", summary="Upload a user profile image")
 def upload_profile_image(
-        profile_image: UploadFile = Form(...),
-        user_email: str = Depends(get_current_user)
+    profile_image: UploadFile = File(...),  # Use File to ensure Swagger displays correctly
+    user_email: str = Depends(get_current_user)  # Token decoded for user email
 ):
+    """
+    Upload a profile image for the authenticated user.
+    - **profile_image**: The image file to be uploaded (JPEG or PNG).
+    """
+    # Check if the user exists
     user = get_user_by_email(user_email)
     if not user:
         raise HTTPException(
@@ -59,7 +64,9 @@ def upload_profile_image(
             detail="User not found"
         )
 
+    
     profile_image_url = upload_user_profile_image(user_email, profile_image)
+
     return {"profile_image": profile_image_url}
 
 
