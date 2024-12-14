@@ -49,7 +49,7 @@ def register_user(
 
 @router.post("/upload-profile-image")
 def upload_profile_image(
-        profile_image: UploadFile = File(...),
+        profile_image: UploadFile = Form(...),
         user_email: str = Depends(get_current_user)
 ):
     user = get_user_by_email(user_email)
@@ -61,6 +61,7 @@ def upload_profile_image(
 
     profile_image_url = upload_user_profile_image(user_email, profile_image)
     return {"profile_image": profile_image_url}
+
 
 
 @router.post("/token", response_model=Token)
