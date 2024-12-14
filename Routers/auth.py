@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Form, UploadFile
+from fastapi import APIRouter, Depends, HTTPException, status, Form, UploadFile, File
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from Models.user import User, Token
 from Services.auth_service import get_user_by_email, create_user, upload_user_profile_image, update_user
@@ -49,7 +49,7 @@ def register_user(
 
 @router.post("/upload-profile-image")
 def upload_profile_image(
-        profile_image: UploadFile = Form(...),
+        profile_image: UploadFile = File(...),
         user_email: str = Depends(get_current_user)
 ):
     user = get_user_by_email(user_email)
