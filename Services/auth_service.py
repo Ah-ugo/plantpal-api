@@ -21,13 +21,15 @@ def create_user(email: str, username: str, password: str):
     return user_data
 
 
-def upload_user_profile_image(user_email: str, profile_image):
-    profile_image_url = upload_to_cloudinary(profile_image)
+def upload_user_profile_image(user_email: str, profile_image: UploadFile):
+    # Read the file and pass its content to `upload_to_cloudinary`
+    profile_image_url = upload_to_cloudinary(profile_image.file)
     db.users.update_one(
         {"email": user_email},
         {"$set": {"profile_image": profile_image_url}}
     )
     return profile_image_url
+
 
 
 def update_user(email: str, updates: dict):
